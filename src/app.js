@@ -11,11 +11,4 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/health', (req, res) => {
-  return res.status(200).json({
-    sucesso: true,
-    mensagem: 'Servidor ativo e conexão com MongoDB inicializada.'
-  });
-});
-
 export default app;
