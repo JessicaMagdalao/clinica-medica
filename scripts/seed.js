@@ -16,6 +16,7 @@ async function seed() {
     await db.collection('especialidades').createIndex({ nome: 1 }, { unique: true });
     await db.collection('medicos').createIndex({ crm: 1 }, { unique: true });
     await db.collection('medicos').createIndex({ especialidadeId: 1 });
+    await db.collection('medicos').createIndex({ especialidade: 1 });
     await db.collection('consultas').createIndex({ pacienteId: 1 });
     await db.collection('consultas').createIndex({ medicoId: 1 });
     await db.collection('consultas').createIndex({ status: 1 });
@@ -76,6 +77,7 @@ async function seed() {
       crm: `CRM-ES ${10000 + index}`,
       telefone: `27998${String(index).padStart(6, '0')}`,
       especialidadeId: especialidadeIds[index],
+      especialidade: especialidades[index].nome,
       horariosAtendimento: [
         {
           diaSemana: index % 2 === 0 ? 'segunda-feira' : 'quarta-feira',
@@ -92,7 +94,9 @@ async function seed() {
 
     const consultas = Array.from({ length: 30 }, (_, index) => ({
       pacienteId: pacienteIds[index],
+      paciente: pacientes[index].nome,
       medicoId: medicoIds[index],
+      medico: medicos[index].nome,
       especialidade: especialidades[index].nome,
       dataHora: new Date(2026, index % 12, (index % 28) + 1, 8 + (index % 8), 0),
       status: statusConsultas[index % 3],
