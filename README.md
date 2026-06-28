@@ -27,14 +27,29 @@ DATABASE_NAME=clinica_medica_bdiii
 
 Cada collection possui pelo menos 30 documentos.
 
+## Índices
+
+Os índices foram criados no arquivo `seed.js`.
+
+- `pacientes.cpf`: usado para buscar pacientes e evitar CPF duplicado.
+- `especialidades.nome`: usado para buscar especialidades e evitar nomes duplicados.
+- `medicos.crm`: usado para buscar médicos e evitar CRM duplicado.
+- `medicos.especialidadeId`: usado para buscar médicos por especialidade.
+- `consultas.pacienteId`: usado para buscar consultas de um paciente.
+- `consultas.medicoId`: usado para buscar consultas de um médico.
+- `consultas.status`: usado para filtrar consultas por status.
+- `consultas.dataHora`: usado para buscar consultas por data.
+- `consultas.especialidade`: usado para filtrar consultas por especialidade.
+
 ## Modelagem
-O projeto usa `ObjectId` para ligar médicos, especialidades, pacientes e consultas.
 
-Também guarda dados dentro de `medicos`, no campo `horariosAtendimento`.
+O projeto usa referências com `ObjectId`:
 
-O projeto usa referências com `ObjectId` entre médicos, especialidades, pacientes e consultas.
+- `medicos.especialidadeId` referencia uma especialidade.
+- `consultas.pacienteId` referencia um paciente.
+- `consultas.medicoId` referencia um médico.
 
-Também usa dado embutido em `medicos`, no campo `horariosAtendimento`.
+Também usa dado embutido em `medicos`, no campo `horariosAtendimento`, porque os horários pertencem diretamente ao médico.
 
 ## Funcionalidades
 
