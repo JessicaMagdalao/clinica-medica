@@ -4,6 +4,7 @@ export async function consultasPorEspecialidade() {
   return getConsultasCollection().aggregate([
     { $match: { status: 'realizada' } },
     { $group: { _id: '$especialidade', total: { $sum: 1 } } },
+    { $project: { _id: 0, especialidade: '$_id', total: 1 } },
     { $sort: { total: -1 } }
   ]).toArray();
 }
@@ -21,6 +22,7 @@ export async function consultasPorMedico() {
     },
     { $unwind: '$medico' },
     { $group: { _id: '$medico.nome', total: { $sum: 1 } } },
+    { $project: { _id: 0, medico: '$_id', total: 1 } },
     { $sort: { total: -1 } }
   ]).toArray();
 }
@@ -38,6 +40,7 @@ export async function consultasPorPaciente() {
     },
     { $unwind: '$paciente' },
     { $group: { _id: '$paciente.nome', total: { $sum: 1 } } },
+    { $project: { _id: 0, paciente: '$_id', total: 1 } },
     { $limit: 10 }
   ]).toArray();
 }
